@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+    <link rel="icon" href="https://ih1.redbubble.net/image.214395319.3603/flat,128x128,075,t.u3.jpg" />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="{{url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{url_for('static', filename='js/estilos.js') }}"></script>
+
+    <title>{% block titulo %}{% endblock %}</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg mb-3">
+        <a class="navbar-brand" href="/"><span class="icono">WS</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                {% if session["tipo"] == "emprendedor" %}
+                <a class="nav-item nav-link active" href="/emprendedor/emprendimientos">Administrar Emprendimientos</a>
+                <a class="nav-item nav-link active" href="/emprendedor/ferias">Administrar Ferias</a>
+
+
+                {% elif session["tipo"] == "cliente" %}
+                <a class="nav-item nav-link active" href="/cliente/ferias">Ver Ferias</a>
+                <a class="nav-item nav-link active" href="/cliente/emprendimientos">Ver Emprendimientos</a>
+
+
+                {% elif session["tipo"] == "admin" %}
+                <a class="nav-item nav-link active" href="/admin/cliente">Cliente</a>
+                <a class="nav-item nav-link active" href="/admin/emprendedor">Emprendedor</a>
+                <a class="nav-item nav-link active" href="/admin/emprendimiento">Emprendimiento</a>
+                <a class="nav-item nav-link active" href="/admin/categoria">Categoría</a>
+                <a class="nav-item nav-link active" href="/admin/feria">Feria</a>
+                <a class="nav-item nav-link active" href="/admin/producto">Producto</a>
+                <a class="nav-item nav-link active" href="/admin/servicio">Servicio</a>
+                <a class="nav-item nav-link active" href="/admin/comentario">Comentario</a>
+                {% else %}
+                {% endif %}
+
+                {% if not session %}
+                <a class="nav-item nav-link active" href="/cliente/ferias">Ver Ferias</a>
+                <a class="nav-item nav-link active" href="/cliente/emprendimientos">Ver Emprendimientos</a>
+
+                {% endif %}
+                <a class="nav-item nav-link active" href="/cliente/contacto">Contacto</a>
+
+                {% if session["tipo"] == "emprendedor" %}
+                <a class="nav-item nav-link active text-light bg-dark" href="/emprendedor/perfil">Perfil</a>
+                <a class="nav-item nav-link active text-light bg-dark" href="/cerrarSesion">Cerrar Sesión</a>
+                {% elif session["tipo"] == "cliente" %}
+                <a class="nav-item nav-link active text-light bg-dark" href="/cliente/perfil">Perfil</a>
+                <a class="nav-item nav-link active text-light bg-dark" href="/cerrarSesion">Cerrar Sesión</a>
+                {% elif session["tipo"] == "admin" %}
+                <a class="nav-item nav-link active text-light bg-dark" href="/">Volver al Inicio</a>
+                {% else %}
+                <a class="nav-item nav-link active text-light bg-dark" href="/login">Iniciar/Registrarse</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {% if get_flashed_messages() %}
+                <header>
+                    <div class="alert alert-primary border text-center" role="alert">
+                        {{ get_flashed_messages() | join(" ") }}
+                    </div>
+                </header>
+                {% endif %}
+            </div>
+        </div>
+        {% block container %}{% endblock %}
+    </div>
+
+    <footer class="page-footer">
+        <div class="container">
+            <div class="row py-4 d-flex align-items-center">
+                <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+                    <form class="form-inline" action="/busqueda">
+                        <input name="q" class="form-control form-control-sm mr-3 w-75" type="text"
+                            placeholder="Busqueda Avanzada" aria-label="Busqueda" autocomplete="off">
+                        <i class="fas fa-search" aria-hidden="true">
+                            <img src="{{url_for('static', filename='img/search.svg')}}" height="25px" alt="fb">
+                        </i>
+                    </form>
+                </div>
+                <div class="col-md-6 col-lg-7 text-center text-md-right">
+                    <a target="_blank" href="https://www.facebook.com/WabiSabi-103343708100262/"><img src="{{url_for('static', filename='img/social/fb.svg')}}"
+                            height="50px" alt="fb"></a>
+                    <a target="_blank" href=""><img src="{{url_for('static', filename='img/social/yt.svg')}}"
+                            height="50px" alt="yt"></a>
+                    <a target="_blank" href=""><img src="{{url_for('static', filename='img/social/ig.svg')}}"
+                            height="50px" alt="ig"></a>
+                    <a target="_blank" href="https://twitter.com/wabisabinic"><img src="{{url_for('static', filename='img/social/tw.svg')}}"
+                            height="50px" alt="tw"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="container text-center text-md-left mt-5">
+            <div class="row mt-3">
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase font-weight-bold">Wabi Sabi</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>Una página web hecha para usted emprendedora, no dude en promocionar sus productos por este medio, ¡Dése a conocer!</p>
+
+                </div>
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase font-weight-bold">Links de referencias</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>
+                        <a href="/cliente/ferias">Ferias</a>
+                    </p>
+                    <p>
+                        <a href="/cliente/emprendimientos">Categorías de Emprendimiento</a>
+                    </p>
+                    <p>
+                        <a href="/cliente/contacto">Contacto</a>
+                    </p>
+                    <p>
+                        <a href="/">Inicioss</a>
+                    </p>
+
+                </div>
+                <!-- Grid column -->
+
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <h6 class="text-uppercase font-weight-bold">Contactanos</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>
+                    Las Colinas</p>
+                    <p>
+                        wabi.sabi.cs50ni@gmail.com</p>
+                    <p>
+                        + 505 23456788</p>
+                    <p>
+                         + 505 83456789</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="/"> wabisabi.com</a>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+{% block titulo %}
+Tus Emprendimientos
+{% endblock %}
+
+{% block container %}
+
+<div class="row mt-4">
+    <div class="col-8">
+        <h1>Tus emprendimientos</h1>
+    </div>
+    <div class="col-4">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarEmpr">
+            Agregar emprendimiento.
+        </button>
+    </div>
+    {% if not emprendimientos %}
+    <div class="col-12">
+        <div class="alert alert-danger" role="alert">
+            Sin emprendimientos...
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarEmpr">
+                Agregar emprendimiento.
+            </button>
+        </div>
+    </div>
+    {% else %}
+    {% for e in emprendimientos %}
+    <div class="col-4">
+        <div class="divImagenFondo" onclick="location.href='/emprendedor/emprendimiento/{{e.id_emprendimiento}}'">
+            <img src="{{e.url_foto}}" alt="{{e.nombre}}" class="imagenFondo">
+            <div class="cubierta">
+                <div class="texto">
+                    <h4>{{e.nombre}}</h4>
+                    <p>{{e.nombreCat}}</p>
+                    <small>{{e.municipio}}, {{e.departamento}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <!--######################################################################################################################################################################-->
+    <!--################################################################### AGREGAR EMPRENDIMIENTO  MODAL ###################################################################-->
+    <!--######################################################################################################################################################################-->
+    <div class="modal fade" id="agregarEmpr" tabindex="-1" role="dialog" aria-labelledby="agregarEmprendimiento"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/admin/emprendimiento" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="agregarEmprendimiento">Agregar Emprendimiento</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" name="autor" value="emprendedor" style="display: none;">
+                        <input type="text" name="id_emprendedor" id="id_emprendedor" value="{{session["user_id"]}}"
+                            style="display:none;">
+                        <div class="form-group">
+                            <label for="id_categoria">categoria: </label>
+                            <select class="form-control" name="id_categoria" id="id_categoria">
+                                {% for categoria in categorias %}
+                                <option value="{{categoria.id_categoria}}">{{categoria.nombre}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre: </label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="KissMe">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="departamento">Departamento: </label>
+                            <input type="text" class="form-control" id="departamento" name="departamento"
+                                placeholder="managua">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="municipio">Municipio: </label>
+                            <input type="text" class="form-control" id="municipio" name="municipio"
+                                placeholder="managua">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="direccion">Dirección: </label>
+                            <input type="text" class="form-control" id="direccion" name="direccion"
+                                placeholder="De la gasolinera UNO las colinas 300 mts al sur">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción: </label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion"
+                                placeholder="Helado artesanal nicaragüense">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="url_foto">url Foto: </label>
+                            <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="link_facebook">Facebook: </label>
+                            <input type="url" class="form-control" id="link_facebook" name="link_facebook"
+                                placeholder="https://www.facebook.com/kissmemanagua">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="link_youtube">Youtube: </label>
+                            <input type="url" class="form-control" id="link_youtube" name="link_youtube"
+                                placeholder="https://www.youtube.com/">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="link_instagram">Instagram: </label>
+                            <input type="url" class="form-control" id="link_instagram" name="link_instagram"
+                                placeholder="https://www.instagram.com/kissmemanagua">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="link_twitter">Twitter: </label>
+                            <input type="url" class="form-control" id="link_twitter" name="link_twitter"
+                                placeholder="https://www.twitter.com/">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--########################################################################################################################################################################################################-->
+        <!--#################################################################################AGREGAR EMPRENDIMIENTO  MODAL##########################################################################################-->
+        <!--########################################################################################################################################################################################################-->
+    </div>
+</div>
+{% endblock %}

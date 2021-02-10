@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+{% block titulo %}
+    Admin
+{% endblock %}
+
+{% block container %}
+
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------Emprendedor--------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row mt-3">
+        <div class="col-6">
+            <h1>Administrar Emprendedor</h1>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcategoria">Agregar Emprendedor</button>
+        </div>
+    </div>
+    <div class="modal fade" id="addcategoria" tabindex="-1" role="dialog" aria-labelledby="addcategoriaLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/admin/emprendedor" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addcategoriaLabel">Agregar Emprendedor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          <div class="modal-body">
+                <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                <input type = "text" name="autor" value="admin" style="display: none;">
+                <div class="form-group">
+                    <label for="nombre">Nombre: </label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Axel">
+                    <label for="apellido">Apellido: </label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="García">
+                </div>
+
+                <div class="form-group">
+                    <label for="cedula">cedula: </label>
+                    <input type="text" class="form-control" id="cedula" name="cedula" placeholder="001-120987-0038K">
+                </div>
+
+                <div class="form-group">
+                    <label for="departamento">departamento: </label>
+                    <input type="text" class="form-control" id="departamento" name="departamento" placeholder="managua">
+                </div>
+
+                <div class="form-group">
+                    <label for="municipio">municipio: </label>
+                    <input type="text" class="form-control" id="municipio" name="municipio" placeholder="managua">
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">direccion: </label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="De la gasolinera UNO las colinas 300 mts al sur">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">telefono: </label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="22724232">
+                </div>
+
+                <div class="form-group">
+                    <label for="correo">correo: </label>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="gogo@mail.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_nacimiento">fecha_nacimiento: </label>
+                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="DD/MM/YYYY">
+                </div>
+
+                <div class="form-group">
+                    <label for="contrasena">contrasena: </label>
+                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="*%L_k/">
+                </div>
+
+                <div class="form-group">
+                    <label for="url_foto">url_foto: </label>
+                    <input type="url" class="form-control" id="url_foto" name="url_foto" placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg">
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Registrar">
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <table class="table-responsive">
+            <thead>
+                <tr>
+                    <!--id_emprendedor, nombre, apellido, cédula, departamento, municipio, direccion, telefono, correo, fecha_nac, contraseña, url_foto-->
+                    <th scope="col">id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Cedula</th>
+                    <th scope="col">Departamento</th>
+                    <th scope="col">Municipio</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Nacimiento</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Foto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprendedor in lista_emprendedor %}
+                <tr>
+                    <th scope="row">{{ emprendedor.id_emprendedor }}</th>
+                    <td onclick="editarEmprendedorNombre({{emprendedor.id_emprendedor}})">{{ emprendedor.nombre }} </td>
+                    <td onclick="editarEmprendedorApellido({{emprendedor.id_emprendedor}})">{{ emprendedor.apellido }} </td>
+                    <td onclick="editarEmprendedorCedula({{emprendedor.id_emprendedor}})">{{ emprendedor.cedula }} </td>
+                    <td onclick="editarEmprendedorDepartamento({{emprendedor.id_emprendedor}})">{{ emprendedor.departamento }} </td>
+                    <td onclick="editarEmprendedorMunicipio({{emprendedor.id_emprendedor}})">{{ emprendedor.municipio }} </td>
+                    <td onclick="editarEmprendedorDireccion({{emprendedor.id_emprendedor}})">{{ emprendedor.direccion }} </td>
+                    <td onclick="editarEmprendedorTelefono({{emprendedor.id_emprendedor}})">{{ emprendedor.telefono }} </td>
+                    <td onclick="editarEmprendedorCorreo({{emprendedor.id_emprendedor}})">{{ emprendedor.correo }} </td>
+                    <td onclick="editarEmprendedorFechaNac({{emprendedor.id_emprendedor}})">{{ emprendedor.fecha_nacimiento }} </td>
+                    <td onclick="editarEmprendedorContrasena({{emprendedor.id_emprendedor}})"> <button class="btn btn-danger"> Cambiar Pass</button> </td>
+                    <td onclick="editarEmprendedorURL_Foto({{emprendedor.id_emprendedor}})"><img src="{{emprendedor.url_foto}}" height="100px" alt="{{emprendedor.nombre}}"></td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

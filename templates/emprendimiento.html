@@ -1,0 +1,874 @@
+{% extends "layout.html" %}
+{% block titulo %}
+{{edto.nombre}}
+{% endblock %}
+
+{% block container %}
+
+<div class="row mt-4">
+
+    <div class="col-8">
+        <div class="card">
+
+            <div class="card-body text-center">
+                <button onclick="history.back()" class="btn btn-warning">Atrás</button>
+                <h4 class="card-title">{{edto.nombre}} - por <a href="/emprendedor/perfil/{{edto.id_emprendedor}}">{{e.nombre}} {{e.apellido}}</a></h4>
+                    {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editarNombreEmp">Editar</button>
+                    <div class="modal fade" id="editarNombreEmp" tabindex="-1" role="dialog"
+                        aria-labelledby="editarNombreEmpL" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form action="SELECT * FROM categoria" method="get">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editarNombreEmpL">Editar Nombre del emprendimiento
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" name="autor" id="autor" style="display: none;"
+                                            value="emprendedor">
+                                        <input type="text" name="idEmprendimiento" id="idEmprendimiento"
+                                            style="display: none;" value="{{edto.id_emprendimiento}}">
+                                        <div class="form-group">
+                                            <label for="nombre">Nuevo Nombre:</label>
+                                            <input type="text" class="form-control" name="nombre" id="nombre"
+                                                value="{{edto.nombre}}">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-success" value="Guardar cambios!">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </h4>
+            </div>
+
+            <div class="text-center">
+                <img src="{{edto.url_foto}}" class="bordearimagen" data-toggle="modal"
+                    data-target="#informacion" width=" 50%" alt="{{edto.nombre}}">
+                {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                <div class="modal fade" id="informacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form action="/admin/emprendimiento/editarInfo" method="get">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Información Adicional</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" name="idEmprendimiento" id="idEmprendimiento"
+                                        value="{{edto.id_emprendimiento}}" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="url_foto">Url de la Foto: </label>
+                                        <input type="text" class="form-control" id="url_foto" name="url_foto"
+                                            value="{{edto.url_foto}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="descripcion">Descripción: </label>
+                                        <textarea class="form-control" id="descripcion" name="descripcion"
+                                            rows="3">{{edto.descripcion}}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="municipio">Municipio: </label>
+                                        <input type="text" class="form-control" id="municipio" name="municipio"
+                                            value="{{edto.municipio}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="departamento">Departamento: </label>
+                                        <input type="text" class="form-control" id="departamento" name="departamento"
+                                            value="{{edto.departamento}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="direccion">Dirección: </label>
+                                        <textarea class="form-control" id="direccion" name="direccion"
+                                            rows="3">{{edto.descripcion}}</textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Guardar Cambios" class="btn btn-success">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="modal fade" id="informacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Información Adicional</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5>Descripción</h5>
+                                        </div>
+                                        <div class="col-12">
+                                            <p>{{edto.descripcion}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5>Dirección: </h5>
+                                        </div>
+                                        <div class="col-12">
+                                            <p><strong>{{edto.municipio}}, {{edto.departamento}}</strong></p>
+                                            <p>{{edto.direccion}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+            <div class="card-body">
+                <div class="horizontal-distr">
+                    <span class="card-title">Categoría: <strong>{{c.nombre}}</strong></span>
+                    {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editarCatEmp">Editar</button>
+                    <div class="modal fade" id="editarCatEmp" tabindex="-1" role="dialog"
+                        aria-labelledby="editarCatEmpL" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form action="/admin/emprendimiento/editarCategoria" method="get">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editarCatEmpL">Editar Categoría del emprendimiento
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" name="autor" id="autor" style="display: none;"
+                                            value="emprendedor">
+                                        <input type="text" name="idEmprendimiento" id="idEmprendimiento"
+                                            style="display: none;" value="{{edto.id_emprendimiento}}">
+                                        <div class="form-group">
+                                            <label for="nombre">Nueva Categoría:</label>
+                                            <select name="idCategoria" id="idCcategoria" class="form-control">
+                                                {% for categoria in cats %}
+                                                {% if categoria.id_categoria == edto.id_categoria %}
+                                                <option value="{{categoria.id_categoria}}" selected>{{categoria.nombre}}
+                                                </option>
+                                                {% else %}
+                                                <option value="{{categoria.id_categoria}}">{{categoria.nombre}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-success" value="Guardar cambios!">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <span>{{ resumen['numeroComentarios']}} comentarios, valoración:
+                        {{ resumen['valoracionPromedio']}}/10.0</span>
+                </div>
+
+                <hr>
+                <div class="horizontal-distr">
+                    <a target="_blank" href="{{edto.link_facebook}}"><img
+                            src="{{url_for('static', filename='img/social/fb.svg')}}" height="50px" alt="fb"></a>
+                    <a target="_blank" href="{{edto.link_youtube}}"><img
+                            src="{{url_for('static', filename='img/social/yt.svg')}}" height="50px" alt="yt"></a>
+                    <a target="_blank" href="{{edto.link_instagram}}"><img
+                            src="{{url_for('static', filename='img/social/ig.svg')}}" height="50px" alt="ig"></a>
+                    <a target="_blank" href="{{edto.link_twitter}}"><img
+                            src="{{url_for('static', filename='img/social/tw.svg')}}" height="50px" alt="tw"></a>
+                    {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                    <button class="btn btn-warning" data-toggle="modal" data-target="#editarLinks">Editar</button>
+                    <div class="modal fade" id="editarLinks" tabindex="-1" role="dialog" aria-labelledby="editarLinksL"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form action="/admin/emprendimiento/editarLinks" method="get">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editarLinksL">Editar Links del emprendimiento
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <input type="text" name="autor" id="autor" style="display: none;"
+                                            value="emprendedor">
+                                        <input type="text" name="idEmprendimiento" id="idEmprendimiento"
+                                            style="display: none;" value="{{edto.id_emprendimiento}}">
+                                        <div class="form-group">
+                                            <label for="link_facebook">Enlace a Facebook:</label>
+                                            <input type="text" class="form-control" name="link_facebook"
+                                                id="link_facebook" value="{{edto.link_facebook}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="link_youtube">Enlace a youtube:</label>
+                                            <input type="text" class="form-control" name="link_youtube"
+                                                id="link_youtube" value="{{edto.link_youtube}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="link_instagram">Enlace a Instagram:</label>
+                                            <input type="text" class="form-control" name="link_instagram"
+                                                id="link_instagram" value="{{edto.link_instagram}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="link_twitter">Enlace a Twitter:</label>
+                                            <input type="text" class="form-control" name="link_twitter"
+                                                id="link_twitter" value="{{edto.link_twitter}}">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-success" value="Guardar cambios!">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-4">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center active">
+                Ferias
+                {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                <button class="btn btn-warning" data-toggle="modal" data-target="#addferia">Agregar</button>
+                {% endif %}
+            </li>
+            {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+            <div class="modal fade" id="addferia" tabindex="-1" role="dialog" aria-labelledby="addferialabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form action="/admin/feria" method="POST">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addcategoriaLabel">Agregar Feria</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                                <input type="text" name="autor" value="emprendedor" style="display: none;">
+                                <input type="text" name="id_emprendimiento" value="{{edto.id_emprendimiento}}"
+                                    style="display: none;">
+
+                                <div class="form-group">
+                                    <label for="nombre">Nombre: </label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre"
+                                        placeholder="PopUp">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="descripcion">Descripción: </label>
+                                    <input type="text" class="form-control" id="descripcion" name="descripcion"
+                                        placeholder="Feria navideña de emprendimientos">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="departamento">Departamento: </label>
+                                    <input type="text" class="form-control" id="departamento" name="departamento"
+                                        placeholder="managua">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="municipio">Municipio: </label>
+                                    <input type="text" class="form-control" id="municipio" name="municipio"
+                                        placeholder="managua">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="direccion">Dirección: </label>
+                                    <input type="text" class="form-control" id="direccion" name="direccion"
+                                        placeholder="De la gasolinera UNO las colinas 300 mts al sur">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fecha_inicio">Fecha de inicio: </label>
+                                    <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                                        placeholder="DD/MM/YYYY">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fecha_fin">Fecha a finalizar: </label>
+                                    <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"
+                                        placeholder="DD/MM/YYYY">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="url_foto">url Foto: </label>
+                                    <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                        placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Registrar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if not fs %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Este emprendimiento no ha tenido ferias.
+            </li>
+            {% else %}
+            {% for feria in fs %}
+            <li class="list-group-item d-flex justify-content-between align-items-center" data-toggle="modal" data-target="#detallesFeria{{feria.id_feria}}">
+                {{feria.nombre}}, {{feria.municipio}} - {{feria.departamento}}
+                <span class="badge badge-primary badge-pill">{{feria.fecha_inicio}}</span>
+            </li>
+                <div class="modal fade" id="detallesFeria{{feria.id_feria}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Feria <em>{{feria.nombre}}</em></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+
+                        <p>
+                            {{feria.descripcion}}
+                        </p>
+                        <p><strong>Lugar: </strong> ({{feria.municipio}}, {{feria.departamento}})</p>
+                        <p class="card-text"><small class="text-muted">Del {{feria.fecha_inicio}} al {{feria.fecha_fin}}</small>
+                        </p>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+            {% endif %}
+        </ul>
+        <div class="comentarios mt-2" style="overflow: scroll;height: 26em;">
+            {% if not comentarios %}
+            <div class="alert alert-warning" role="alert">
+                No hay comentarios
+            </div>
+            {% else %}
+            {% for cm in comentarios %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Valoración: {{cm.valoracion}}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{cm.fechahora}}</h6>
+                    <p class="card-text">{{cm.comentario}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+            <div class="card">
+                <div class="card-body">
+                    {% if not session or session['tipo'] == 'emprendedor'%}
+                    <button type="button" class="btn btn-primary" disabled data-toggle="tooltip" data-placement="left"
+                        title="Inicie sesión como cliente primero">Agregar Comentario</button>
+                    {% else %}
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#addComentario">Agregar Comentario</button>
+                    {% endif %}
+                </div>
+                <div class="modal fade" id="addComentario" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="/admin/comentario" method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Agregar Comentario</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" name="autor" id="autor" value="cliente" style="display: none;">
+                                    <input type="text" name="id_emprendimiento" id="id_emprendimiento"
+                                        value="{{edto.id_emprendimiento}}" style="display: none;">
+                                    <input type="text" name="id_cliente" id="id_cliente" value="{{session['user_id']}}"
+                                        style="display: none;">
+                                    <div class="form-group">
+                                        <label for="comentario">Comentario</label>
+                                        <input type="text" name="comentario" required id="comentario">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="valoracion">Valoración del uno al diez:</label>
+                                        <input type="number" name="valoracion" id="valoracion" min="0" max="10">
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" value="Agregar Comentario">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<!--########################################################################################################################-->
+<!--###############################################     PRODUCTOS    ########################################################-->
+<!--########################################################################################################################-->
+<div class="row mt-4 justify-content-center">
+    {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+    <div class="col-10">
+        <h4>Productos de {{edto.nombre}}</h4>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addProducto">Nuevo Producto</button>
+    </div>
+    <div class="modal fade" id="addProducto" tabindex="-1" role="dialog" aria-labelledby="addProductoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/admin/producto" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProductoLabel">Agregar Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                        <input type="text" name="autor" value="emprendedor" style="display: none;">
+                        <input type="text" name="id_emprendimiento" value="{{edto.id_emprendimiento}}"
+                            style="display: none;">
+
+                        <div class="form-group">
+                            <label for="nombre">Nombre: </label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Croissant">
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripción: </label>
+                            <input type="text" class="form-control" id="descripcion" name="descripcion"
+                                placeholder="Bollo de hojaldra">
+                        </div>
+                        <div class="form group">
+                            <label for="precio">Precio: </label>
+                            <input type="number" step="0.01" class="form-control" id="precio" name="precio"
+                                placeholder="25">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="url_foto">url_foto: </label>
+                            <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="disponible">Disponible: </label>
+                            <select name="disponible" id="disponible" class="form-control">
+                                <option value="0">Sí</option>
+                                <option value="1">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Registrar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12">
+        <h4>Productos de {{edto.nombre}}</h4>
+    </div>
+    {% endif %}
+    {% if not ps %}
+    <div class="col-12 m-4">
+        <div class="alert alert-danger" role="alert"> No hay productos!
+        </div>
+    </div>
+    {% else %}
+    <div class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+            {% for i in range(ps | length) %}
+            {% if i == 0 %}
+            <a class="list-group-item list-group-item-action active" id="list-p{{ps[i].id_producto}}-list"
+                data-toggle="list" href="#list-p{{ps[i].id_producto}}" role="tab"
+                aria-controls="p{{ps[i].id_producto}}">
+                {{ps[i].nombre}}
+            </a>
+            {% else %}
+            <a class="list-group-item list-group-item-action" id="list-p{{ps[i].id_producto}}-list" data-toggle="list"
+                href="#list-p{{ps[i].id_producto}}" role="tab" aria-controls="p{{ps[i].id_producto}}">
+                {{ps[i].nombre}}
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="tab-content" id="nav-tabContent">
+            {% for i in range(ps | length) %}
+            {% if i == 0 %}
+            <div class="tab-pane fade show active" id="list-p{{ps[i].id_producto}}" role="tabpanel"
+                aria-labelledby="list-p{{ps[i].id_producto}}-list">
+                {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                <div class="divImagenFondo2" data-toggle="modal" data-target="#editProducto{{ps[i].id_producto}}">
+                {% else %}
+                <div class="divImagenFondo2">
+                {% endif %}
+                        <img src="{{ps[i].url_foto}}" alt="{{ps[i].nombre}}" height="200px" class="imagenFondo2">
+                        <div class="cubierta2">
+                            <div class="texto2">
+                                <h5>{{ps[i].nombre}}</h5>
+                                <p>{{ps[i].descripcion}}</p>
+                                <p> <strong>{{ps[i].precio}}</strong> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="tab-pane fade" id="list-p{{ps[i].id_producto}}" role="tabpanel"
+                    aria-labelledby="list-p{{ps[i].id_producto}}-list">
+                    {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                    <div class="divImagenFondo2" data-toggle="modal" data-target="#editProducto{{ps[i].id_producto}}">
+                    {% else %}
+                    <div class="divImagenFondo2">
+                    {% endif %}
+                        <img src="{{ps[i].url_foto}}" alt="{{ps[i].nombre}}" height="200px" class="imagenFondo2">
+                        <div class="cubierta2">
+                            <div class="texto2">
+                                <h5>{{ps[i].nombre}}</h5>
+                                <p>{{ps[i].descripcion}}</p>
+                                <p> <strong>{{ps[i].precio}}</strong> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                <div class="modal fade" id="editProducto{{ps[i].id_producto}}" tabindex="-1" role="dialog"
+                    aria-labelledby="editProductoLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="/admin/producto/editarInfo" method="GET">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editProductoLabel">Modificar Producto</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                                    <input type="text" name="autor" value="emprendedor" style="display: none;">
+                                    <input type="text" name="id_emprendimiento" value="{{edto.id_emprendimiento}}"
+                                        style="display: none;">
+                                    <input type="text" name="idProducto" value="{{ps[i].id_producto}}"
+                                        style="display: none;">
+
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre: </label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre"
+                                            placeholder="Croissant" value="{{ps[i].nombre}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="descripcion">Descripción: </label>
+                                        <input type="text" class="form-control" id="descripcion" name="descripcion"
+                                            placeholder="Bollo de hojaldra" value="{{ps[i].descripcion}}">
+                                    </div>
+                                    <div class="form group">
+                                        <label for="precio">Precio: </label>
+                                        <input type="number" step="0.01" class="form-control" id="precio" name="precio"
+                                            placeholder="25" value="{{ps[i].precio}}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="url_foto">url_foto: </label>
+                                        <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                            placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg"
+                                            value="{{ps[i].url_foto}}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="disponible">Disponible: </label>
+                                        <select name="disponible" id="disponible" class="form-control">
+                                            {% if ps[i].disponible == 0 %}
+                                            <option value="0" selected>Sí</option>
+                                            <option value="1">No</option>
+                                            {% else %}
+                                            <option value="0">Sí</option>
+                                            <option value="1" selected>No</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <input type="submit" class="btn btn-primary" value="Guardar cambios">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <!--########################################################################################################################-->
+    <!--###############################################     SERVICIOS   ########################################################-->
+    <!--########################################################################################################################-->
+    <div class="row mt-4 justify-content-center">
+
+        {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+        <div class="col-10">
+            <h4>Servicios de {{edto.nombre}}</h4>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#addServicio">Nuevo Servicio</button>
+        </div>
+        <div class="modal fade" id="addServicio" tabindex="-1" role="dialog" aria-labelledby="addServicioLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="/admin/servicio" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addServicioLabel">Agregar Servicio</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                            <input type="text" name="autor" value="emprendedor" style="display: none;">
+                            <input type="text" name="id_emprendimiento" value="{{edto.id_emprendimiento}}"
+                                style="display: none;">
+
+                            <div class="form-group">
+                                <label for="nombre">Nombre: </label>
+                                <input type="text" class="form-control" id="nombre" name="nombre"
+                                    placeholder="Croissant">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="descripcion">Descripción: </label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion"
+                                    placeholder="Bollo de hojaldra">
+                            </div>
+
+                            <div class="form group">
+                                <label for="precio">Precio: </label>
+                                <input type="number" step="0.01" class="form-control" id="precio" name="precio"
+                                    placeholder="25">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="url_foto">url_foto: </label>
+                                <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                    placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="disponible">Disponible: </label>
+                                <select name="disponible" id="disponible" class="form-control">
+                                    <option value="0">Sí</option>
+                                    <option value="1">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Registrar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <h4>Servicios de {{edto.nombre}}</h4>
+        </div>
+        {% endif %}
+
+        {% if not ss %}
+        <div class="col-12 m-4">
+            <div class="alert alert-danger" role="alert"> No hay servicios!
+            </div>
+        </div>
+        {% else %}
+        <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                {% for i in range(ss | length) %}
+                {% if i == 0 %}
+                <a class="list-group-item list-group-item-action active" id="list-s{{ss[i].id_servicio}}-list"
+                    data-toggle="list" href="#list-s{{ss[i].id_servicio}}" role="tab"
+                    aria-controls="s{{ss[i].id_servicio}}">
+                    {{ss[i].nombre}}
+                </a>
+                {% else %}
+                <a class="list-group-item list-group-item-action" id="list-s{{ss[i].id_servicio}}-list"
+                    data-toggle="list" href="#list-s{{ss[i].id_servicio}}" role="tab"
+                    aria-controls="s{{ss[i].id_servicio}}">
+                    {{ss[i].nombre}}
+                </a>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+                {% for i in range(ss | length) %}
+                {% if i == 0 %}
+                <div class="tab-pane fade show active" id="list-s{{ss[i].id_servicio}}" role="tabpanel"
+                    aria-labelledby="list-s{{ss[i].id_servicio}}-list">
+                    {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                    <div class="divImagenFondo2" data-toggle="modal" data-target="#editServicio{{ss[i].id_servicio}}">
+                    {% else %}
+                    <div class="divImagenFondo2">
+                    {% endif %}
+                        <img src="{{ss[i].url_foto}}" alt="{{ss[i].nombre}}" height="200px" class="imagenFondo2">
+                        <div class="cubierta2">
+                            <div class="texto2">
+                                <h5>{{ss[i].nombre}}</h5>
+                                <p>{{ss[i].descripcion}}</p>
+                                <p> <strong>{{ss[i].precio}}</strong> </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                {% else %}
+                <div class="tab-pane fade" id="list-s{{ss[i].id_servicio}}" role="tabpanel"
+                    aria-labelledby="list-s{{ss[i].id_servicio}}-list">
+                    {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                    <div class="divImagenFondo2" data-toggle="modal" data-target="#editServicio{{ss[i].id_servicio}}">
+                    {% else %}
+                    <div class="divImagenFondo2">
+                    {% endif %}
+                        <img src="{{ss[i].url_foto}}" alt="{{ss[i].nombre}}" height="200px" class="imagenFondo2">
+                        <div class="cubierta2">
+                            <div class="texto2">
+                                <h5>{{ss[i].nombre}}</h5>
+                                <p>{{ss[i].descripcion}}</p>
+                                <p> <strong>{{ss[i].precio}}</strong> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if session['tipo'] == 'emprendedor' and session['user_id'] == edto.id_emprendedor %}
+                <div class="modal fade" id="editServicio{{ss[i].id_servicio}}" tabindex="-1" role="dialog"
+                    aria-labelledby="editServicio{{ss[i].id_servicio}}L" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form action="/admin/servicio/editInfo" method="GET">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editServicio{{ss[i].id_servicio}}L">Editar Servicio</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                                    <input type="text" name="autor" value="emprendedor" style="display: none;">
+                                    <input type="text" name="id_emprendimiento" value="{{edto.id_emprendimiento}}"
+                                        style="display: none;">
+                                    <input type="text" name="idServicio" value="{{ss[i].id_servicio}}"
+                                        style="display: none;">
+                                    <div class="form-group">
+                                        <label for="nombre">Nombre: </label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre"
+                                            placeholder="Croissant" value="{{ss[i].nombre}}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="descripcion">Descripción: </label>
+                                        <input type="text" class="form-control" id="descripcion" name="descripcion"
+                                            placeholder="Bollo de hojaldra" value="{{ss[i].descripcion}}">
+                                    </div>
+
+                                    <div class="form group">
+                                        <label for="precio">Precio: </label>
+                                        <input type="number" step="0.01" class="form-control" id="precio" name="precio"
+                                            placeholder="25" value="{{ss[i].precio}}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="url_foto">url_foto: </label>
+                                        <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                            placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg"
+                                            value="{{ss[i].url_foto}}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="disponible">Disponible: </label>
+                                        <select name="disponible" id="disponible" class="form-control">
+                                            {% if ss[i].disponible == 0 %}
+                                            <option value="0" selected>Sí</option>
+                                            <option value="1">No</option>
+                                            {% else %}
+                                            <option value="0">Sí</option>
+                                            <option value="1" selected>No</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <input type="submit" class="btn btn-primary" value="Guardar Cambios">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% endblock %}

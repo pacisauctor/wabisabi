@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block titulo %}
+    Admin
+{% endblock %}
+
+{% block container %}
+
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------Comentarios--------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row mt-3">
+        <div class="col-6">
+            <h1>Administrar Comentarios</h1>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcategoria">Agregar Comentario</button>
+        </div>
+    </div>
+    <div class="modal fade" id="addcategoria" tabindex="-1" role="dialog" aria-labelledby="addcategoriaLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/admin/comentario" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addcategoriaLabel">Agregar Comentario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          <div class="modal-body">
+                <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                <input type = "text" name="autor" value="admin" style="display: none;">
+                <div class="form group">
+                    <label for="id_emprendimiento">id_emprendimiento: </label>
+                    <select name="id_emprendimiento" id="id_emprendimiento" class="form-control">
+                        {% for emprendimiento in emprendimientos %}
+                            <option value="{{emprendimiento.id_emprendimiento}}">{{emprendimiento.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form group">
+                    <label for="id_cliente">id_cliente: </label>
+                    <select name="id_cliente" id="id_cliente" class="form-control">
+                        {% for cliente in clientes %}
+                            <option value="{{cliente.id_cliente}}">{{cliente.nombre}} {{ cliente.apellido }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentario">Comentario: </label>
+                    <input type="text" class="form-control" id="comentario" name="comentario" placeholder="Aquí hay un comentario.">
+                </div>
+
+                <div class="form-group">
+                    <label for="valoracion">Valoración: </label>
+                    <input type="number" class="form-control" id="valoracion" name="valoracion" min="0" max="10" placeholder="8">
+                </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Registrar">
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <!--id_comentario, valoracion, fechahora-->
+                    <th>id</th>
+                    <th>id_emprendimiento</th>
+                      <th>id_cliente</th>
+                    <th>Comentario</th>
+                    <th>Valoración</th>
+                    <th>FechaHora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comentario in comentarios %}
+                <tr>
+                    <th scope="row">{{ comentario.id_comentario }}</th>
+                    <td onclick="editarEmprendimientoComentario({{comentario.id_comentario}})">{{ comentario.id_emprendimiento }} </td>
+                    <td onclick="editarClienteComentario({{comentario.id_comentario}})">{{ comentario.id_cliente }} </td>
+                    <td onclick="editarContenidoComentario({{comentario.id_comentario}})">{{ comentario.comentario }} </td>
+                    <td onclick="editarComentarioValoracion({{comentario.id_comentario}})">{{ comentario.valoracion }}</td>
+                    <td onclick="editarComentarioFechaHora({{comentario.id_comentario}})">{{ comentario.fechahora }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

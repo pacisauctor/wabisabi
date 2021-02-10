@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block titulo %}
+    Admin
+{% endblock %}
+
+{% block container %}
+<!--------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------Categoría--------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------------->
+    <div class="row mt-3">
+        <div class="col-6">
+            <h1>Administrar Categoría</h1>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addcategoria">Agregar Categoría</button>
+        </div>
+    </div>
+    <div class="modal fade" id="addcategoria" tabindex="-1" role="dialog" aria-labelledby="addcategoriaLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/admin/categoria" method="POST">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addcategoriaLabel">Agregar Categoría</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+          <div class="modal-body">
+                <div class="form-group">
+                    <label for="nombre">Nombre: </label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombre" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="descripcion">Descripción: </label>
+                    <input type="text" class="form-control" id="descripcion" name="descripcion" aria-describedby="descripcion" required autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="url_foto">URL Foto: </label>
+                    <input type="text" class="form-control"  id="url_foto" name="url_foto" aria-describedby="url_foto" required autocomplete="off">
+                    <small id="emailHelp" class="form-text text-muted">Copiar el enlace de la imagen, y pegarlo aquí.(NOTA:<a href="https://imgbb.com" target="_blank">imgbb.com</a>)</small>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-primary" value="Registrar">
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <!--id_categoria, nombre, descripcion, url_foto-->
+                    <th scope="col">id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Imagen</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categoria in lista_categorias %}
+                <tr>
+                    <th scope="row">{{ categoria.id_categoria }}</th>
+                    <td onclick="editarCategoriaNombre({{categoria.id_categoria}})">{{ categoria.nombre }} </td>
+                    <td onclick="editarCategoriaDescripcion({{categoria.id_categoria}})">{{ categoria.descripcion }}</td>
+                    <td onclick="editarCategoriaURL_Foto({{categoria.id_categoria}})"><img src="{{categoria.url_foto}}" height="150px" alt="{{categoria.nombre}}"></td>
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

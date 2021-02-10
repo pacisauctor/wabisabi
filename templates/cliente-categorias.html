@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block titulo %}
+Inicio
+{% endblock %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-12">
+        <h1>Categorias de Emprendimientos :D</h1>
+    </div>
+    {% if not categorias %}
+    REVISAR CODIGO
+    {% else %}
+
+
+
+    {% for categoria in categorias %}
+    <div class="col-4">
+        <div class="divImagenFondo" onclick="location.href='/cliente/emprendimientoF/{{categoria.id_categoria}}'">
+            <img src="{{categoria.url_foto}}" alt="{{categoria.nombre}}" class="imagenFondo">
+            <div class="cubierta">
+                <div class="texto">
+                    <h4>{{categoria.nombre}}</h4>
+                    <p>{{categoria.descripcion}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+</div>
+{% endblock %}

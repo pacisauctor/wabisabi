@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block titulo %}
+Inicio
+{% endblock %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-2">
+        <button onclick="history.back()" class="btn btn-warning">Atrás</button>
+    </div>
+    <div class="col-10">
+
+        <h1>Emprendimientos de {{categoria.nombre}}</h1>
+    </div>
+    {% if not emprendimientos %}
+    <div class="col-12">
+        <div class="alert alert-danger" role="alert">
+            Sin emprendimiento en esta categoria.
+        </div>
+    </div>
+    {% else %}
+
+
+
+    {% for emprendimiento in emprendimientos %}
+    <div class="col-4">
+        <div class="divImagenFondo"
+            onclick="location.href='/cliente/emprendimientos/{{emprendimiento.id_emprendimiento}}'">
+            <img src="{{emprendimiento.url_foto}}" alt="{{emprendimiento.nombre}}" class="imagenFondo">
+            <div class="cubierta">
+                <div class="texto">
+                    <h4>{{emprendimiento.nombre}}</h4>
+                    <p>{{emprendimiento.descripcion}}</p>
+                    <small>{{emprendimiento.municipio}}, {{emprendimiento.departamento}}</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endfor %}
+
+    {% endif %}
+</div>
+{% endblock %}

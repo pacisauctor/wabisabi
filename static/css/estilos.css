@@ -1,0 +1,178 @@
+.icono {
+  font-family: 'Dancing Script', cursive;
+  font-size: 40px; }
+
+nav {
+  color: white;
+  background-color: #174873; }
+
+nav a {
+  color: white;
+  background-color: #174873;
+  transition: color 0.5s, background-color 0.5s; }
+
+nav a:hover {
+  color: #174873;
+  background-color: white; }
+
+body {
+  background-color: #F2E6DF; }
+
+.carousel-caption {
+  cursor: pointer;
+  background-color: #174873; }
+
+.horizontal-distr {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline; }
+
+.horizontal-centrado {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; }
+
+.page-footer {
+  margin-top: 10%;
+  background-color: #174873;
+  color: #F2E6DF; }
+
+.page-footer > div {
+  border: 1px solid black; }
+
+.divImagenFondo {
+  position: relative;
+  width: 100%; }
+
+.imagenFondo {
+  display: block;
+  width: 100%;
+  height: auto; }
+
+.cubierta {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #F2668B; }
+
+.divImagenFondo:hover .cubierta {
+  opacity: 0.8;
+  cursor: pointer; }
+
+.texto {
+  color: #F2E6DF;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center; }
+
+.foto-perfil {
+  border-radius: 50%;
+  border: 1px solid #174873;
+  transition: all 1s; }
+
+.fcolumn {
+  flex-grow: 3; }
+
+.scolumn {
+  flex-grow: 1; }
+
+.perfil-item:hover {
+  background-color: #F2E6DF; }
+
+.foto-perfil:hover {
+  border: 5px solid #174873; }
+
+.divImagenFondo2 {
+  position: relative;
+  width: 80%; }
+
+.imagenFondo2 {
+  display: block;
+  width: 100%;
+  height: auto; }
+
+.cubierta2 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #008CBA;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease; }
+
+.divImagenFondo2:hover .cubierta2 {
+  width: 100%; }
+
+.texto2 {
+  color: #F2E6DF;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center; }
+
+.bordearimagen {
+  transition: all 0.5s; }
+
+.bordearimagen:hover {
+  border: 5px solid #174873;
+  cursor: pointer; }
+
+.divImagenFondo3 {
+  position: relative;
+  width: 100%;
+  transition: .5s ease; }
+
+.imagenFondo3 {
+  display: block;
+  width: 100%;
+  height: auto; }
+
+.cubierta3 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background-color: #F2668B; }
+
+.divImagenFondo3:hover .cubierta3 {
+  opacity: 0.8;
+  cursor: pointer; }
+
+.divImagenFondo3:hover {
+  width: 150%; }
+
+.texto3 {
+  color: #F2E6DF;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center; }
+
+/*# sourceMappingURL=estilos.css.map */

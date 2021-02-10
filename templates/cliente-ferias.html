@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block titulo %}
+Inicio
+{% endblock %}
+
+{% block container %}
+
+<div class="row mt-2">
+    {% if not ferias %}
+    <div class="alert alert-danger" role="alert">
+        No hay ferias.
+    </div>
+    {% else %}
+    <div class="col-12">
+        <h2>Ferias de emprendimiento!!</h2>
+    </div>
+    {% for feria in ferias %}
+
+    <div class="col-4">
+        <div class="divImagenFondo" data-toggle="modal" data-target="#detallesFeria{{feria.id_feria}}">
+            <img src="{{feria.url_foto}}" alt="{{feria.nombre}}" class="imagenFondo">
+            <div class="cubierta">
+                <div class="texto">
+                    ¡Click para ver más!
+
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="modal fade" id="detallesFeria{{feria.id_feria}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Feria <em>{{feria.nombre}}</em></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <p>
+            {{feria.descripcion}}
+        </p>
+        <p><strong>Lugar: </strong> ({{feria.municipio}}, {{feria.departamento}})</p>
+        <p class="card-text"><small class="text-muted">Del {{feria.fecha_inicio}} al {{feria.fecha_fin}}</small>
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button class="btn btn-info" onclick="location.href='/cliente/emprendimientos/{{feria.id_emprendimiento}}'"> Ver emprendimiento</button>
+      </div>
+    </div>
+  </div>
+</div>
+    {% endfor %}
+    {% endif %}
+
+</div>
+{% endblock %}

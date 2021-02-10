@@ -1,0 +1,208 @@
+{% extends "layout.html" %}
+{% block titulo %}
+Mis ferias
+{% endblock %}
+
+{% block container %}
+
+<div class="row">
+    <div class="col-10">
+        <h1>Mis ferias</h1>
+    </div>
+    <div class="col-2">
+        <button class="btn btn-success" data-toggle="modal" data-target="#addferia">Nueva Feria</button>
+        <div class="modal fade" id="addferia" tabindex="-1" role="dialog" aria-labelledby="addferialabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <form action="/admin/feria" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addcategoriaLabel">Agregar Feria</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                            <input type="text" name="autor" value="emprendedorf" style="display: none;">
+                            <div class="form group">
+                                <label for="id_emprendimiento"> Emprendimiento: </label>
+                                <select name="id_emprendimiento" id="id_emprendimiento" class="form-control" required>
+                                    {% for emprendimiento in edtos %}
+                                    <option value="{{emprendimiento.id_emprendimiento}}">{{emprendimiento.nombre}}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre" class="form-control-label">Nombre: </label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="PopUp" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="descripcion" class="form-control-label">Descripción: </label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion"
+                                    placeholder="Feria navideña de emprendimientos">
+                            </div>
+                            <div class="container">
+                                <div class="form-group row">
+                                    <label for="departamento" class="col-4 form-control-label">Departamento: </label>
+                                    <input type="text" class="col-8 form-control" id="departamento" name="departamento"
+                                        placeholder="Managua">
+                                </div>
+                                <div class="form-group row">
+                                    <label for="municipio" class="col-4 form-control-label">Municipio: </label>
+                                    <input type="text" class="col-8 form-control" id="municipio" name="municipio"
+                                        placeholder="Managua">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="direccion">Dirección: </label>
+                                <input type="text" class="form-control" id="direccion" name="direccion"
+                                    placeholder="De la gasolinera UNO las colinas 300 mts al sur" required>
+                            </div>
+                            <div class="container">
+                                <div class="form-group row">
+                                    <label for="fecha_inicio" class="col-5 form-control-label">Fecha de inicio: </label>
+                                    <input type="date" class="col-7 form-control" id="fecha_inicio" name="fecha_inicio"
+                                        placeholder="DD/MM/YYYY" required>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="fecha_fin" class="col-5 form-control-label">Fecha a finalizar: </label>
+                                    <input type="date" class="col-7 form-control" id="fecha_fin" name="fecha_fin"
+                                        placeholder="DD/MM/YYYY" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="url_foto" class="form-control-label">url Foto: </label>
+                                <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                    required placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="Registrar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for edto in edtos %}
+<div class="row">
+    <div class="col-12">
+        <hr>
+        <h2>Ferias de {{edto.nombre}}</h2>
+    </div>
+</div>
+
+<div class="row">
+    {% for feria in ferias | filtrarFerias(edto.id_emprendimiento) %}
+    <div class="col-4">
+        <div class="divImagenFondo" data-toggle="modal"
+                data-target="#feria{{feria['id_feria']}}">
+            <img src="{{feria.url_foto}}" alt="{{feria.nombre}}"  class="imagenFondo">
+            <div class="cubierta">
+                <div class="texto">
+                    <h4>Click para editar!!</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="feria{{feria['id_feria']}}" tabindex="-1" role="dialog" aria-labelledby="editFeria{{feria.id_feria}}"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form action="/admin/feria/editarInfo" method="GET">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editFeria{{feria.id_feria}}">Editar Feria</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- etiqueta oculta para pasar como valor el autor del registro -->
+                        <input type="text" name="autor" value="emprendedorf" style="display: none;">
+                        <input type="text" name="idFeria" value="{{feria.id_feria}}" style="display: none;">
+                        <div class="form group">
+                            <label for="id_emprendimiento"> Emprendimiento: </label>
+                            <select name="id_emprendimiento" id="id_emprendimiento" class="form-control">
+                                {% for emprendimiento in edtos %}
+                                    {% if emprendimiento.id_emprendimiento == feria.id_emprendimiento %}
+                                    <option value="{{emprendimiento.id_emprendimiento}}" selected>{{emprendimiento.nombre}}
+                                        </option>
+                                    {% else %}
+                                    <option value="{{emprendimiento.id_emprendimiento}}">{{emprendimiento.nombre}}
+                                        </option>
+                                        {% endif %}
+                                {% endfor %}
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nombre" class="form-control-label">Nombre: </label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{feria.nombre}}" placeholder="PopUp">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion" class="form-control-label">Descripción: </label>
+                            <input type="text" class="form-control" id="descripcion" value="{{feria.descripcion}}" name="descripcion"
+                                placeholder="Feria navideña de emprendimientos">
+                        </div>
+                        <div class="container">
+                            <div class="form-group row">
+                                <label for="departamento" class="col-4 form-control-label">Departamento: </label>
+                                <input type="text" class="col-8 form-control" id="departamento" value="{{feria.departamento}}" name="departamento"
+                                    placeholder="Managua">
+                            </div>
+                            <div class="form-group row">
+                                <label for="municipio" class="col-4 form-control-label">Municipio: </label>
+                                <input type="text" class="col-8 form-control" id="municipio" name="municipio" value="{{feria.municipio}}"
+                                    placeholder="Managua">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label" for="direccion">Dirección: </label>
+                            <input type="text" class="form-control" id="direccion" name="direccion"
+                                placeholder="De la gasolinera UNO las colinas 300 mts al sur" value="{{feria.direccion}}">
+                        </div>
+                        <div class="container">
+                            <div class="form-group row">
+                                <label for="fecha_inicio" class="col-5 form-control-label">Fecha de inicio: </label>
+                                <input type="date" class="col-7 form-control" id="fecha_inicio" name="fecha_inicio"
+                                    placeholder="DD/MM/YYYY" value="{{feria.fecha_inicio}}">
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="fecha_fin" class="col-5 form-control-label">Fecha a finalizar: </label>
+                                <input type="date" class="col-7 form-control" id="fecha_fin" name="fecha_fin"
+                                    placeholder="DD/MM/YYYY" value="{{feria.fecha_fin}}">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="url_foto" class="form-control-label">url Foto: </label>
+                            <input type="url" class="form-control" id="url_foto" name="url_foto"
+                                placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg" value="{{feria.url_foto}}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Registrar">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endfor %}
+
+{% endblock %}

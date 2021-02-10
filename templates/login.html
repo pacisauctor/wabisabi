@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block titulo %}
+    Inicio de Sesión
+{% endblock %}
+
+{% block container %}
+<div class="row mt-2">
+    <div class="col-12">
+        <h2 class="text-center">Inicio de Sesión</h2>
+    </div>
+</div>
+
+
+<div class="row justify-content-md-center">
+    <div class="col-6 m-4">
+        <form action="/login" method="POST">
+        <div class="form-group">
+            <label for="correo">Email</label>
+            <input type="email" class="form-control" id="correo" name="correo" aria-describedby="emailHelp" autocomplete="off" required>
+            <small id="emailHelp" class="form-text text-muted">Consulte a administración si no recuerda su
+                contraseña, o bien <a href="/registrarse">registrese</a>.</small>
+        </div>
+        <div class="form-group">
+            <label for="contrasena">Contraseña: </label>
+            <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+        </div>
+        <div class="form-check form-check-inline">
+
+            <input type="radio" class="form-check-label mr-1 mb-1" id="cliente" name="tipo" value="cliente" required>
+            <label class="" for="cliente">Como cliente</label>
+        </div>
+        <div class="form-check form-check-inline">
+
+            <input type="radio" class="form-check-label mr-1 mb-1" id="emprendedor" name="tipo" value="emprendedor" required>
+            <label class="" for="emprendedor">Como emprendedor</label>
+        </div>
+        <div class="text-center">
+                <button type="submit" class="btn btn-primary">Ingresar</button>
+        </div>
+    </form>
+    </div>
+</div>
+{% endblock %}

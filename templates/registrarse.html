@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+{% block titulo %}
+    Registrarse
+{% endblock %}
+
+{% block container %}
+<div class="row">
+    <div class="col-12">
+        <h2>Registrese y entre al sitio con los mejores emprendimientos!</h2>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-4">
+        <h3 class="btn btn-success" onclick="mostrarFormCliente()" style="width:100%;">Registrarse como cliente</h3>
+    </div>
+    <div class="col-4">
+        <h3 class="btn btn-success" onclick="mostrarFormEmprendedor()" style="width:100%;">Registrarse como Emprendedor</h3>
+    </div>
+</div>
+<div class="row justify-content-md-center" id="formCliente">
+    <div class="col-12">
+        <h3>Hola nuevo cliente!</h3>
+    </div>
+    <div class="col-8">
+        <div class="imagen">
+            <img src="https://i.ibb.co/gvyNrT3/logo4.jpg" alt="fondo" style="width:100%; height:100%">
+        </div>
+    </div>
+    <div class="col-4">
+        <form action="/admin/cliente" method="POST">
+                <input type="text" name="autor" value="user" style="display: none;">
+                <div class="form-group">
+                    Ingrese sus datos:
+                </div>
+                <div class="form-group">
+
+                    <input required type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                    <input required type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="text" class="form-control" id="cedula" name="cedula" placeholder="Cedula">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="text" class="form-control" id="departamento" name="departamento" placeholder="Departamento">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="text" class="form-control" id="municipio" name="municipio" placeholder="Municipio">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="tel" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="email" class="form-control" id="correo" name="correo" placeholder="Correo">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="Fecha de Nacimiento">
+                </div>
+
+                <div class="form-group">
+
+                    <input required type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña">
+                </div>
+
+                <div class="form-group">
+
+                    <input type="url" class="form-control" id="url_foto" name="url_foto" placeholder="URL de la foto">
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Registrarse!!">
+                    </div>
+                </div>
+
+        </form>
+    </div>
+</div>
+<div class="row justify-content-md-center" id="formEmprendedor" style="display:none;">
+    <div class="col-12">
+        <h3>Hola nuevo emprendedor!</h3>
+    </div>
+    <div class="col-8">
+        <div class="imagen">
+            <img src="https://i.ibb.co/HVDwG6Q/logo5.jpg" alt="fondo" style="width:100%; height:100%">
+        </div>
+    </div>
+    <div class="col-4">
+        <form action="/admin/emprendedor" method="POST">
+                <input type="text" name="autor" value="user" style="display: none;">
+                <div class="form-group">
+                    <label for="nombre">Nombre: </label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Axel">
+                    <label for="apellido">Apellido: </label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" placeholder="García">
+                </div>
+
+                <div class="form-group">
+                    <label for="cedula">cedula: </label>
+                    <input type="text" class="form-control" id="cedula" name="cedula" placeholder="001-120987-038K">
+                </div>
+
+                <div class="form-group">
+                    <label for="departamento">Departamento: </label>
+                    <input type="text" class="form-control" id="departamento" name="departamento" placeholder="managua">
+                </div>
+
+                <div class="form-group">
+                    <label for="municipio">Municipio: </label>
+                    <input type="text" class="form-control" id="municipio" name="municipio" placeholder="managua">
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion">Dirección: </label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="De la gasolinera UNO las colinas 300 mts al sur">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono: </label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="22724232">
+                </div>
+
+                <div class="form-group">
+                    <label for="correo">Correo: </label>
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="gogo@mail.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_nacimiento">Fecha de nacimiento: </label>
+                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" placeholder="DD/MM/YYYY">
+                </div>
+
+                <div class="form-group">
+                    <label for="contrasena">Contraseña: </label>
+                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="*%L_k/">
+                </div>
+
+                <div class="form-group">
+                    <label for="url_foto">Url de la Foto: </label>
+                    <input type="url" class="form-control" id="url_foto" name="url_foto" placeholder="https://www.tvn-2.com/variedad/de-todo-un-poco/Grumpy-Cat-gato-memes-demanda_11772613.jpg">
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-primary" value="Registrarse!!">
+                    </div>
+                </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

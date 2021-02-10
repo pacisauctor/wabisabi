@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block titulo %}
+    Inicio de Sesión
+{% endblock %}
+
+{% block container %}
+
+
+
+<div class="row justify-content-md-center">
+    <div class="col-8 text-center">
+        <h2 class="icono">Contáctanos!</h2>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+
+    <div class="col-3 text-center">
+        <div class="divImagenFondo3">
+            <img src="{{url_for('static', filename= 'img/mail.svg')}}" alt="mail" class="imagenFondo3">
+            <div class="cubierta3">
+                <div class="texto3">
+                    <h4><a href="mailto:wabi.sabi.cs50ni@gmail.com?Subject=Comentario">wabi.sabi.cs50ni@gmail.com</a> </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 text-center">
+        <div class="divImagenFondo3">
+            <img src="{{url_for('static', filename= 'img/phone.svg')}}" alt="mail" class="imagenFondo3">
+            <div class="cubierta3">
+                <div class="texto3">
+                    <h4><a href="tel:+50583456789">+505 8345 6789</a> </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 text-center">
+        <div class="divImagenFondo3">
+            <img src="{{url_for('static', filename= 'img/marker.svg')}}" alt="mail" class="imagenFondo3">
+            <div class="cubierta3">
+                <div class="texto3">
+                    <h4>De la señora que vende tamales, al lado.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
